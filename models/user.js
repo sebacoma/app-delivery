@@ -5,8 +5,8 @@ const db = require("../db/connection");
 class User extends Model {
     static id;
     static name;
-    static lastName;
     static email;
+    static lastnames;
     static phone;
     static image;
     static password;
@@ -16,23 +16,23 @@ User.init({
     name: {
         type: DataTypes.STRING,
     },
-    lastName: {
-        type: DataTypes.STRING,
-    },
     email: {
         type: DataTypes.STRING,
-        unique: true,
+    },
+    password: {
+        type: DataTypes.STRING,
     },
     phone: {
+        type: DataTypes.STRING,
+    },
+    lastnames: {
         type: DataTypes.STRING,
     },
     image: {
         type: DataTypes.STRING,
         allowNull: true
     },
-    password: {
-        type: DataTypes.STRING,
-    }
+
 }, {
     sequelize: db,
     modelName: 'User',
@@ -41,7 +41,7 @@ User.init({
 User.Role = User.belongsTo(require('./role'), { foreignKey: 'role_id' });
 
 User.prototype.toJSON = function () {
-    const { password, ...user } = this.get();
+    const user = this.get();
     delete user.password; // Delete this property password
 
     // Include the role_id

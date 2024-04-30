@@ -9,6 +9,7 @@ class Role extends Model {
 Role.init({
     name: {
         type: DataTypes.STRING,
+        unique: true
     }
 }, {
     sequelize: db,
