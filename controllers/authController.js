@@ -1,9 +1,8 @@
 const { response, request } = require("express");
 const User = require("../models/user");
-
-
-
-
+const bcryptjs = require('bcryptjs');
+const {generateToken}  = require('../helpers/generate-jwt');
+const jwt = require('jsonwebtoken');
 
 
 const login = async (req = request, res = response) => {
@@ -20,35 +19,35 @@ const login = async (req = request, res = response) => {
             });
         }
 
-        // Validate status user
-
-        // Verify password
         const validPassword = bcryptjs.compareSync(password, user.password);
-
+        
         if (!validPassword) {
             return res.status(400).send({
                 error: true,
                 message: 'Invalidate credentials. - password'
             });
         }
-
-        // Generate JWT
-        const token = await generateJWT(user.id);
-
+        const token = await generateToken(user.id);
+        
         const { name, lastName, phone, email: emailUser, image, role_id } = user;
 
         const dataUser = { id: user.id, name, lastName, phone, email: emailUser, image, role_id };
         dataUser.session_token = token;
 
-        res.status(201).json({
+
+        return res.status(201).json({
             success: true,
             data: dataUser
         });
     } catch (error) {
-        res.status(500).send({
+        return res.status(500).send({
             success: false,
             error: true,
-            message: 'Oops, error is comming.'
+            message: error.message
         });
     }
+}
+
+module.exports = {
+    login
 }

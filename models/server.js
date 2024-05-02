@@ -43,7 +43,7 @@ class Server {
     middlewares() {
         
         this.app.use(logger('dev'));
-
+        this.app.use(express.json());
         this.app.use(cors());
     }
 
