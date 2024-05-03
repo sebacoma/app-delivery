@@ -4,6 +4,7 @@ const logger = require('morgan');
 const db = require('../db/connection');
 const Role = require('./role');
 const User = require('./user');
+const Category = require('./category');
 
 class Server {
     constructor(){
@@ -15,7 +16,8 @@ class Server {
 
         this.paths = {
             auth: '/api/auth',
-            user: '/api/user'
+            user: '/api/user',
+            category: '/api/category'
         }
 
         //Connect to data
@@ -34,6 +36,7 @@ class Server {
             await db.authenticate();
             await Role.sync({force: false});
             await User.sync({force: false});
+            await Category.sync({force: false});
             console.log('Database online');
         } catch (error) {
             console.log(error);
@@ -49,6 +52,7 @@ class Server {
 
     routes() {
         this.app.use(this.paths.auth, require('../routes/authRoutes'));
+        this.app.use(this.paths.category, require('../routes/categoryRoutes'));
     }
 
     listen() {
