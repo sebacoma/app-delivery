@@ -5,6 +5,7 @@ const db = require('../db/connection');
 const Role = require('./role');
 const User = require('./user');
 const Category = require('./category');
+const fileUpload = require('express-fileupload');
 
 class Server {
     constructor(){
@@ -17,7 +18,8 @@ class Server {
         this.paths = {
             auth: '/api/auth',
             user: '/api/user',
-            category: '/api/category'
+            category: '/api/category',
+            upload: '/api/upload'
         }
 
         //Connect to data
