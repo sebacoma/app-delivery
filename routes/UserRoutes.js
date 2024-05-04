@@ -1,25 +1,28 @@
+// usersRoutes.js
 const { Router } = require("express");
 const { check } = require("express-validator");
-
-// Middlewares
-const { validateFields } = require("../middlewares/validate-fields");
+const { changePassword } = require("../controllers/usersController");
 const { validateJWT } = require("../middlewares/validate-jwt");
+const { validateFields } = require("../middlewares/validate-fields");
+const {updateProfile } = require("../controllers/usersController")
 
-// Controllers
-const { register } = require("../controllers/usersController");
+const router = Router();
 
-
-const router = new Router();
-
-router.post('/', [
-    check('name', 'The name is required').not().isEmpty(),
-    check('lastName', 'The lastName is required').not().isEmpty(),
-    check('email', 'The email is required').not().isEmpty(),
-    check('email', 'This email already exists').custom(verifyEmail),
-    check('password', 'The password is required').not().isEmpty(),
+// Endpoint para cambiar la contraseña
+router.post('/change-password',[
+    validateJWT, // Middleware para validar el token JWT
+    check('oldPassword', 'La contraseña antigua es requerida').not().isEmpty(),
+    check('newPassword', 'La nueva contraseña es requerida').not().isEmpty(),
     validateFields
-], register);
+], changePassword);
 
 
+router.put('/update-profile',[
+    validateJWT, // Verificar el token antes de permitir el acceso
+    check('name', 'the field name is required').not().isEmpty(),
+    check('lastName', 'the field lastName is required').not().isEmpty(),
+    check('phone', 'the field phone is required').not().isEmpty(), // Asumiendo que quieres actualizar el teléfono también
+    validateFields
+], updateProfile);
 
 module.exports = router;
