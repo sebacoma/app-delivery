@@ -3,6 +3,8 @@ const {login} = require('../controllers/authController');
 const {verifyEmailLogin} = require('../helpers/verify-email');
 const {validateFields} = require('../middlewares/validate-fields');
 const {check} = require('express-validator');
+const {verifyEmail} = require('../helpers/verify-email')
+const {register} = require('../controllers/authController')
 
 
 const router = Router();

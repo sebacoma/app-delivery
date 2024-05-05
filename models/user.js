@@ -6,7 +6,7 @@ class User extends Model {
     static id;
     static name;
     static email;
-    static lastnames;
+    static lastName;
     static phone;
     static image;
     static password;
@@ -25,7 +25,7 @@ User.init({
     phone: {
         type: DataTypes.STRING,
     },
-    lastnames: {
+    lastName: {
         type: DataTypes.STRING,
     },
     image: {
