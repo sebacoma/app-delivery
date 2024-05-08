@@ -25,7 +25,6 @@ Este proyecto consiste en la construcción de una API de Delivery con el objetiv
 4. Ejecutar el comando `npm install` para instalar las dependencias del proyecto.
 5. Configurar las variables de entorno en el archivo `.env`.
 6. Ejecutar el proyecto de manera local con el comando `nodemon app`.
-7. ¡Disfruta del API Rest!
 
 ## Comandos de Migraciones
 - **Crear Migración:** `sequelize migration:generate --name [nombre_migración]`
