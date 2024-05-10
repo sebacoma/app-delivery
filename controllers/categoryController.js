@@ -2,7 +2,7 @@ const Category = require("../models/category");
 const { request, response } = require("express");
 
 
-const getCategories = async (req, res) => {
+const getCategories = async (req = request, res = response) => {
     try{
         const categories = await Category.findAll({where: {status: true}});
         res.status(200).json({
@@ -17,7 +17,7 @@ const getCategories = async (req, res) => {
 }
 
 
-const createCategory = async (req, res) => {
+const createCategory = async (req = request, res = response) => {
     try {
         const { name, description, image } = req.body;
 
