@@ -1,6 +1,12 @@
 const express = require('express')
 const cors = require('cors');
 const logger = require('morgan');
+const db = require('../db/connection');
+const Role = require('./role');
+const User = require('./user');
+const Category = require('./category');
+const fileUpload = require('express-fileupload');
+
 class Server {
     constructor(){
         this.app = express();
@@ -11,11 +17,13 @@ class Server {
 
         this.paths = {
             auth: '/api/auth',
-            user: '/api/user'
+            user: '/api/user',
+            category: '/api/category',
+            upload: '/api/upload'
         }
 
         //Connect to data
-
+        this.dbConnection();
         //middleware
         this.middlewares();
 
@@ -26,18 +34,35 @@ class Server {
 
 
     async dbConnection() {
-
+        try {
+            await db.authenticate();
+            await Role.sync({force: false});
+            await User.sync({force: false});
+            await Category.sync({force: false});
+            console.log('Database online');
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     middlewares() {
         
         this.app.use(logger('dev'));
-
+        this.app.use(express.json());
         this.app.use(cors());
+        
+        this.app.use(fileUpload({
+            useTempFiles: true,
+            tempFileDir: '/tmp/',
+            createParentPath: true
+        }))
     }
 
     routes() {
         this.app.use(this.paths.auth, require('../routes/authRoutes'));
+        this.app.use(this.paths.category, require('../routes/categoryRoutes'));
+        this.app.use(this.paths.user, require('../routes/userRoutes'));
+        this.app.use(this.paths.upload, require('../routes/uploadRoutes'));
     }
 
     listen() {

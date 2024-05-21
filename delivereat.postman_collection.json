@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "d0566884-10cf-448f-8625-aae5835c69c3",
+		"name": "delivereat",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33696577"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Jorge\",\r\n    \"lastname\": \"Tapia\",\r\n    \"email\": \"jorge.tapia@gmail.com\",\r\n    \"password\": \"pasas123\",\r\n    \"phone\": \"981734541\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/auth/register"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"j@gmail.com\",\r\n    \"password\": \"pasas123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/auth/login"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"Alexander@gmail.com\",\r\n    \"password\": \"786321549g\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/auth/login"
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Jorgino\",\r\n    \"lastName\": \"Tauren\",\r\n    \"email\": \"Alexander@gmail.com\",\r\n    \"password\": \"786321549g\",\r\n    \"phone\": \"981734541\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/auth/register"
+			},
+			"response": []
+		},
+		{
+			"name": "EditPassword",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzE0NzI5MTUxLCJleHAiOjE3MTQ3NDM1NTF9.NfPt4m-bByksAiK5Gmc3tr-3R71BVZpHycOivao7qoQ"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"oldPassword\" : \"786321549g\",\r\n    \"newPassword\" : \"786321549g2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/user/change-password"
+			},
+			"response": []
+		},
+		{
+			"name": "ImageUpdate",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "archive",
+							"type": "file",
+							"src": "/D:/Descargas/Screenshot_2024-04-20-08-31-35-085_com.android.chrome.jpg"
+						}
+					]
+				},
+				"url": "http://localhost:8080/api/upload/users/2"
+			},
+			"response": []
+		},
+		{
+			"name": "updateuser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzE0ODM2NDAyLCJleHAiOjE3MTQ4NTA4MDJ9.xTU-RPyG1XIDZuItLs2DFzLbWKdah3HioBbRwv_6P_A"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Alexander\",\r\n    \"lastName\": \"Tauren\",\r\n    \"phone\": \"981734541\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/upload/user/update-profile"
+			},
+			"response": []
+		}
+	]
+}
