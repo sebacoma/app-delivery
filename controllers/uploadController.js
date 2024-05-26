@@ -83,7 +83,13 @@ const uploadProductImagesCloudinary = async (req = request, res = response) => {
         }
 
         const images = req.files.archive;
-
+        if (!Array.isArray(images) || images.length < 3) {
+            return res.status(400).json({
+                success: false,
+                message: 'Se requieren al menos 3 imágenes'
+            });
+        }
+        console.log(images);
         const uploadedImages = await Promise.all(images.map(async (image) => {
             const { tempFilePath } = image;
             const { secure_url } = await cloudinary.uploader.upload(tempFilePath, {
