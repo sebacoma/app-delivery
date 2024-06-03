@@ -122,7 +122,23 @@ const editProduct = async (req, res) => {
     }
 }
 
+const getProducts = async (req = request, res = response) => {
+    try {
+        const products = await Product.findAll();
+        return res.status(200).json({
+            success: true,
+            data: products
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: 'Server Error'
+        });
+    }
+};
+
 module.exports = {
     createProduct,
-    editProduct
+    editProduct,
+    getProducts
 }
