@@ -26,7 +26,7 @@ const getCategoryById = async (req, res) => {
     }
 }
 
-const DesactiveCategory = async (req, res) => {
+const DeactivateCategory = async (req, res) => {
     try {
         const categoryId = req.body.id; 
         const category = await Category.findByPk(categoryId);
@@ -57,7 +57,7 @@ const DesactiveCategory = async (req, res) => {
     }
 };
 
-const ActiveCategory = async (req, res) => {
+const ActivateCategory = async (req, res) => {
     try {
         const categoryId = req.body.id; 
         const category = await Category.findByPk(categoryId);
@@ -192,7 +192,7 @@ module.exports = {
     createCategory,
     getCategories,
     getCategoryById,
-    DesactiveCategory,
-    ActiveCategory,
+    DeactivateCategory,
+    ActivateCategory,
     UpdateCategory
 }
