@@ -1,7 +1,8 @@
 const { Router, request, response } = require("express");
-const {createProduct, editProduct} = require('../controllers/productController');
+const {createProduct, editProduct, getProducts} = require('../controllers/productController');
 const {validateFields} = require('../middlewares/validate-fields');
 const {check} = require('express-validator');
+const { validateToken } = require("../controllers/authController");
 
 
 
@@ -22,6 +23,8 @@ router.put('/edit-product/:id', [
     check('category_id', 'El campo categoría es obligatorio').optional().notEmpty(),
     validateFields
 ], editProduct);
+
+router.get('/getProducts', getProducts)
 
 
 
