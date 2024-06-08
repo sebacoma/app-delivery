@@ -122,7 +122,39 @@ const editProduct = async (req, res) => {
     }
 }
 
+const getProducts = async (req, res) => {
+    const { category_id } = req.params;
+    try {
+        const products = await Product.findAll({
+            where: {
+                category_id
+            }
+        });
+        if (products.length === 0) {
+            return res.status(404).json({
+                success: false,
+                error: true,
+                message: 'No se encontraron productos para la categoría especificada'
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            data: products,
+            error: false,
+            message: 'Productos recuperados exitosamente'
+        });
+    } catch (error) {
+        console.error("Error al recuperar los productos:", error);
+        return res.status(500).json({
+            success: false,
+            error: true,
+            message: 'Error al recuperar los productos'
+        });
+    }
+};
+
 module.exports = {
     createProduct,
-    editProduct
+    editProduct,
+    getProducts
 }
