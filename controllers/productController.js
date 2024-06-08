@@ -4,7 +4,8 @@ const { response, request } = require("express");
 
 const createProduct = async (req, res) => {
     try {
-        const { name, description, price, category_id } = req.body;
+        const { name, description, price } = req.body;
+        const category_id = req.params.category_id; // Mover esta línea antes de su uso
 
         // Validar si se proporciona una categoría válida
         if (!category_id) {
@@ -53,7 +54,6 @@ const createProduct = async (req, res) => {
         });
     }
 }
-
 
 const editProduct = async (req, res) => {
     try {

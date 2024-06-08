@@ -7,7 +7,7 @@ const {check} = require('express-validator');
 
 const router = Router();
 
-router.post('/create-product/:id', [
+router.post('/create-product/:category_id', [
     check('name', 'the field name is required').not().isEmpty(),
     check('description', 'the field description is required').not().isEmpty(),
     check('price', 'the field description is required').not().isEmpty(),
