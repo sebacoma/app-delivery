@@ -18,18 +18,15 @@ router.post('/create-category', [
 
 router.get('/get-categories', getCategories);
 
-router.get('/get-category', [
-    check('id', 'the field id is required').notEmpty(), // Verificar si el id está presente en el cuerpo de la solicitud
+router.get('/get-category/:id', [// Verificar si el id está presente en el cuerpo de la solicitud
     validateFields
 ], getCategoryById);
 
-router.post("/deactivate-category", [
-    check('id', 'the field id is required').notEmpty(), // Verificar si el id está presente en el cuerpo de la solicitud
+router.post("/deactivate-category/:id", [ // Verificar si el id está presente en el cuerpo de la solicitud
     validateFields
 ], deactivateCategory);
 
-router.post("/activate-category", [
-    check('id', 'the field id is required').notEmpty(), // Verificar si el id está presente en el cuerpo de la solicitud
+router.post("/activate-category/:id", [ // Verificar si el id está presente en el cuerpo de la solicitud
     validateFields
 ], activateCategory);
 

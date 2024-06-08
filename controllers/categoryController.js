@@ -3,7 +3,7 @@ const { request, response } = require("express");
 
 const getCategoryById = async (req, res) => {
     try {
-        const categoryId = req.body.id; // Obtener el id del cuerpo de la solicitud
+        const categoryId = req.params.id; // Obtener el id del cuerpo de la solicitud
         const category = await Category.findByPk(categoryId);
 
         if (!category) {
@@ -28,7 +28,7 @@ const getCategoryById = async (req, res) => {
 
 const deactivateCategory = async (req, res) => {
     try {
-        const categoryId = req.body.id; 
+        const categoryId = req.params.id; 
         const category = await Category.findByPk(categoryId);
 
         if (!category) {
@@ -59,7 +59,7 @@ const deactivateCategory = async (req, res) => {
 
 const activateCategory = async (req, res) => {
     try {
-        const categoryId = req.body.id; 
+        const categoryId = req.params.id; 
         const category = await Category.findByPk(categoryId);
 
         if (!category) {
