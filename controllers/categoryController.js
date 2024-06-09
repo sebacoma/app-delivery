@@ -90,7 +90,7 @@ const activateCategory = async (req, res) => {
 
 const getCategories = async (req, res) => {
     try{
-        const categories = await Category.findAll({where: {status: true}});
+        const categories = await Category.findAll();
         res.status(200).json({
             data: categories
         });
