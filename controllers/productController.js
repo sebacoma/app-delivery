@@ -152,10 +152,11 @@ const getProducts = async (req, res) => {
         });
     }
 };
-const deleteProduct = async (req, res) => {
+const deactivateProduct = async (req, res) => {
     try {
         const { id } = req.params;
         const product = await Product.findByPk(id);
+
         if (!product) {
             return res.status(404).json({
                 success: false,
@@ -163,25 +164,37 @@ const deleteProduct = async (req, res) => {
                 message: 'Producto no encontrado'
             });
         }
-        await product.destroy();
+
+        if (!product.status) {
+            return res.status(400).json({
+                success: false,
+                error: true,
+                message: 'El producto ya está desactivado'
+            });
+        }
+
+        // Desactivar el producto
+        product.status = false;
+        await product.save();
+
         return res.status(200).json({
             success: true,
             error: false,
-            message: 'Producto eliminado exitosamente'
+            message: 'Producto desactivado exitosamente'
         });
     } catch (error) {
-        console.error("Error al eliminar el producto:", error);
+        console.error("Error al desactivar el producto:", error);
         return res.status(500).json({
             success: false,
             error: true,
-            message: 'Error al eliminar el producto: ' + error.message
+            message: 'Error al desactivar el producto: ' + error.message
         });
     }
-}
+};
 
 module.exports = {
     createProduct,
     editProduct,
     getProducts,
-    deleteProduct
+    deactivateProduct
 }
