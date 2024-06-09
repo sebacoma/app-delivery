@@ -8,7 +8,7 @@ const { validateToken } = require("../controllers/authController");
 
 const router = Router();
 
-router.post('/create-product', [
+router.post('/create-product/:category_id', [
     check('name', 'the field name is required').not().isEmpty(),
     check('description', 'the field description is required').not().isEmpty(),
     check('price', 'the field description is required').not().isEmpty(),
