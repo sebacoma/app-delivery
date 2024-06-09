@@ -152,9 +152,36 @@ const getProducts = async (req, res) => {
         });
     }
 };
+const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await Product.findByPk(id);
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                error: true,
+                message: 'Producto no encontrado'
+            });
+        }
+        await product.destroy();
+        return res.status(200).json({
+            success: true,
+            error: false,
+            message: 'Producto eliminado exitosamente'
+        });
+    } catch (error) {
+        console.error("Error al eliminar el producto:", error);
+        return res.status(500).json({
+            success: false,
+            error: true,
+            message: 'Error al eliminar el producto: ' + error.message
+        });
+    }
+}
 
 module.exports = {
     createProduct,
     editProduct,
-    getProducts
+    getProducts,
+    deleteProduct
 }

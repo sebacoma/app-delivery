@@ -1,5 +1,5 @@
 const { Router, request, response } = require("express");
-const {createProduct, editProduct, getProducts} = require('../controllers/productController');
+const {createProduct, editProduct, getProducts, deleteProduct} = require('../controllers/productController');
 const {validateFields} = require('../middlewares/validate-fields');
 const {check} = require('express-validator');
 const { validateToken } = require("../controllers/authController");
@@ -8,7 +8,7 @@ const { validateToken } = require("../controllers/authController");
 
 const router = Router();
 
-router.post('/create-product/:id', [
+router.post('/create-product', [
     check('name', 'the field name is required').not().isEmpty(),
     check('description', 'the field description is required').not().isEmpty(),
     check('price', 'the field description is required').not().isEmpty(),
@@ -27,5 +27,8 @@ router.put('/edit-product/:id', [
 router.get('/getProducts', getProducts)
 
 
+router.delete('/delete-product/:id', [ // Verificar si el id está presente en el cuerpo de la solicitud
+    validateFields
+], deleteProduct);
 
 module.exports = router;
