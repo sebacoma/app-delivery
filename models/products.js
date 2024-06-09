@@ -1,6 +1,6 @@
 const { DataTypes, Model } = require("sequelize");
 const db = require("../db/connection");
-const Category = require("./category"); 
+const Category = require("./category");
 
 class Product extends Model {}
 
@@ -23,6 +23,11 @@ Product.init({
             model: Category,
             key: 'id'
         }
+    },
+    status: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true  // True means active, false means inactive
     }
 }, {
     sequelize: db,
