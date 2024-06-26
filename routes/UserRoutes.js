@@ -5,6 +5,7 @@ const { changePassword } = require("../controllers/usersController");
 const { validateJWT } = require("../middlewares/validate-jwt");
 const { validateFields } = require("../middlewares/validate-fields");
 const {updateProfile } = require("../controllers/usersController")
+const {saveAddress} = require("../controllers/usersController")
 
 const router = Router();
 
@@ -27,7 +28,6 @@ router.put('/update-profile',[
 
 router.post('/save-address',[
     // validateJWT, 
-    validateFields
 ], saveAddress)
 
 module.exports = router;
