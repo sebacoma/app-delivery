@@ -73,7 +73,39 @@ const updateProfile = async (req = request, res = response) => {
     }
 }
 
+const saveAddress = async (req = request, res = response) => {
+    try {
+        const { address, city, state, zipCode } = req.body;
+        const userId = req.user.id; // Obtener el ID del usuario del token JWT
+
+        // Buscar y actualizar el usuario
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        // Actualizar los campos del perfil
+        user.address = address;
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            data: user,
+            message: 'Address updated successfully'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Server error',
+            error: error.message
+        });
+    }
+}
 module.exports = {
     changePassword,
-    updateProfile
+    updateProfile,
+    saveAddress
 };

@@ -25,4 +25,9 @@ router.put('/update-profile',[
     validateFields
 ], updateProfile);
 
+router.post('/save-address',[
+    // validateJWT, 
+    validateFields
+], saveAddress)
+
 module.exports = router;
