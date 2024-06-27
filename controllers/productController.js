@@ -4,7 +4,8 @@ const { response, request } = require("express");
 
 const createProduct = async (req, res) => {
     try {
-        const { name, description, price, category_id } = req.body;
+        const { name, description, price } = req.body;
+        const category_id = req.params.category_id; // Mover esta línea antes de su uso
 
         // Validar si se proporciona una categoría válida
         if (!category_id) {
@@ -53,7 +54,6 @@ const createProduct = async (req, res) => {
         });
     }
 }
-
 
 const editProduct = async (req, res) => {
     try {
@@ -152,9 +152,49 @@ const getProducts = async (req, res) => {
         });
     }
 };
+const deactivateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await Product.findByPk(id);
+
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                error: true,
+                message: 'Producto no encontrado'
+            });
+        }
+
+        if (!product.status) {
+            return res.status(400).json({
+                success: false,
+                error: true,
+                message: 'El producto ya está desactivado'
+            });
+        }
+
+        // Desactivar el producto
+        product.status = false;
+        await product.save();
+
+        return res.status(200).json({
+            success: true,
+            error: false,
+            message: 'Producto desactivado exitosamente'
+        });
+    } catch (error) {
+        console.error("Error al desactivar el producto:", error);
+        return res.status(500).json({
+            success: false,
+            error: true,
+            message: 'Error al desactivar el producto: ' + error.message
+        });
+    }
+};
 
 module.exports = {
     createProduct,
     editProduct,
-    getProducts
+    getProducts,
+    deactivateProduct
 }

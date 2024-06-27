@@ -3,7 +3,7 @@ const { request, response } = require("express");
 
 const getCategoryById = async (req, res) => {
     try {
-        const categoryId = req.body.id; // Obtener el id del cuerpo de la solicitud
+        const categoryId = req.params.id; // Obtener el id del cuerpo de la solicitud
         const category = await Category.findByPk(categoryId);
 
         if (!category) {
@@ -26,9 +26,9 @@ const getCategoryById = async (req, res) => {
     }
 }
 
-const DesactiveCategory = async (req, res) => {
+const deactivateCategory = async (req, res) => {
     try {
-        const categoryId = req.body.id; 
+        const categoryId = req.params.id; 
         const category = await Category.findByPk(categoryId);
 
         if (!category) {
@@ -57,9 +57,9 @@ const DesactiveCategory = async (req, res) => {
     }
 };
 
-const ActiveCategory = async (req, res) => {
+const activateCategory = async (req, res) => {
     try {
-        const categoryId = req.body.id; 
+        const categoryId = req.params.id; 
         const category = await Category.findByPk(categoryId);
 
         if (!category) {
@@ -90,7 +90,7 @@ const ActiveCategory = async (req, res) => {
 
 const getCategories = async (req, res) => {
     try{
-        const categories = await Category.findAll({where: {status: true}});
+        const categories = await Category.findAll();
         res.status(200).json({
             data: categories
         });
@@ -139,7 +139,7 @@ const createCategory = async (req, res) => {
     }
 }
 
-const UpdateCategory = async (req, res) => {
+const updateCategory = async (req, res) => {
     try {
         const { id, name, description } = req.body;
 
@@ -192,7 +192,7 @@ module.exports = {
     createCategory,
     getCategories,
     getCategoryById,
-    DesactiveCategory,
-    ActiveCategory,
-    UpdateCategory
+    deactivateCategory,
+    activateCategory,
+    updateCategory
 }

@@ -32,6 +32,10 @@ Category.init({
     sequelize: db,
     modelName: 'Category',
 });
+Category.prototype.toJSON = function () {
+    const { createdAt, updatedAt, ...data } = this.get();
+    return data;
+};
 
 module.exports = Category;
 
