@@ -1,3 +1,4 @@
+// usersRoutes.js
 const { Router } = require("express");
 const { check } = require("express-validator");
 const { changePassword } = require("../controllers/usersController");
