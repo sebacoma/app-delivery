@@ -1,7 +1,7 @@
 const { request, response } = require("express");
 const bcrypt = require('bcryptjs'); // Importar bcrypt para manejar las contraseñas
 const User = require("../models/user");
-const address = require("../models/Adresses");
+const address = require("../models/adresses");
 
 const changePassword = async (req = request, res = response) => {
     const userId = req.user.id; // Obtener el ID del usuario del token JWT
