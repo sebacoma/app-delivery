@@ -28,13 +28,21 @@ const saveAddress = async (req, res) => {
 };
 
 const getAddresses = async (req, res) => {
+    const userId = req.params.userId; // Obtener el userId desde los parámetros de la URL
+
     try {
-        const addresses = await Address.findAll();
+        const addresses = await Address.findAll({
+            where: {
+                user_id: userId // Filtrar por user_id
+            }
+        });
+
         res.status(200).json({
             success: true,
             data: addresses
         });
     } catch (error) {
+        console.error('Error fetching addresses:', error);
         res.status(500).json({
             success: false,
             error: true,

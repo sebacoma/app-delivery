@@ -6,6 +6,6 @@ const router = Router();
 // Endpoint para guardar o actualizar una dirección
 router.post('/save', saveAddress);
 
-router.get('/', getAddresses);
+router.get('/:userId', getAddresses);
 
 module.exports = router;
