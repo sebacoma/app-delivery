@@ -1,6 +1,6 @@
 const Product = require("../models/products");
 const Category = require("../models/category");
-const Image = require("../models/images"); // Importamos el modelo de imagen
+const Image = require("../models/images");
 const { response, request } = require("express");
 
 const createProduct = async (req, res) => {
@@ -118,7 +118,7 @@ const getProductById = async (req, res = response) => {
     const { id } = req.params;
     try {
         const product = await Product.findByPk(id, {
-            include: [{ model: Image, as: 'images' }]
+            include: [{ model: Image }]
         });
         if (!product) {
             return res.status(404).json({
@@ -143,7 +143,7 @@ const getProductsByCategory = async (req, res) => {
     try {
         const products = await Product.findAll({
             where: { category_id },
-            include: [{ model: Image, as: 'images' }]
+            include: [{ model: Image }]
         });
         return res.status(200).json({
             success: true,
