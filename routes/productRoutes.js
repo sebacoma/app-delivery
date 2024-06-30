@@ -1,18 +1,16 @@
-const { Router, request, response } = require("express");
-const {createProduct, editProduct, getProducts, deactivateProduct} = require('../controllers/productController');
-const {validateFields} = require('../middlewares/validate-fields');
-const {check} = require('express-validator');
+const { Router } = require("express");
+const { createProduct, editProduct, getProductsByCategory, getProductById, deactivateProduct } = require('../controllers/productController');
+const { validateFields } = require('../middlewares/validate-fields');
+const { check } = require('express-validator');
 const { validateToken } = require("../controllers/authController");
-
-
 
 const router = Router();
 
 router.post('/create-product/:category_id', [
-    check('name', 'the field name is required').not().isEmpty(),
-    check('description', 'the field description is required').not().isEmpty(),
-    check('price', 'the field description is required').not().isEmpty(),
-    check('category_id', 'the field id is required').notEmpty(),
+    check('name', 'El campo nombre es obligatorio').not().isEmpty(),
+    check('description', 'El campo descripción es obligatorio').not().isEmpty(),
+    check('price', 'El campo precio es obligatorio').not().isEmpty(),
+    check('category_id', 'El campo categoría es obligatorio').notEmpty(),
     validateFields
 ], createProduct);
 
@@ -24,11 +22,10 @@ router.put('/edit-product/:id', [
     validateFields
 ], editProduct);
 
-router.get('/getProducts', getProducts)
-
-router.put('/deactivate/:id', [
+router.get('/get-products-category/:category_id', getProductsByCategory);
+router.get('/get-product/:id', getProductById);
+router.patch('/deactivate/:id', [
     check('id', 'El campo id es obligatorio').notEmpty(),
-],deactivateProduct);
-
+], deactivateProduct);
 
 module.exports = router;
