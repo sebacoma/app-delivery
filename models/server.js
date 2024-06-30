@@ -10,8 +10,6 @@ const Images = require("./images");
 const Product = require("./products");
 const Address = require('./adresses');
 const Order = require('./order');
-const Order_products = require('./order_product');
-
 class Server {
     constructor(){
         this.app = express();
@@ -26,7 +24,8 @@ class Server {
             category: '/api/category',
             upload: '/api/upload',
             product: "/api/product",
-            address: "/api/address"
+            address: "/api/address",
+            cart: "/api/cart",
         }
 
         //Connect to data
@@ -50,7 +49,6 @@ class Server {
             await Images.sync({force: false});
             await Address.sync({force: false});
             await Order.sync({force: false});
-            await Order_products.sync({force: false});
             console.log('Database online');
         } catch (error) {
             console.log(error);
@@ -77,6 +75,7 @@ class Server {
         this.app.use(this.paths.upload, require('../routes/uploadRoutes'));
         this.app.use(this.paths.product, require('../routes/productRoutes'));
         this.app.use(this.paths.address, require("../routes/addressRoutes"));
+        this.app.use(this.paths.cart, require("../routes/cartRoutes"));
     }
 
     listen() {

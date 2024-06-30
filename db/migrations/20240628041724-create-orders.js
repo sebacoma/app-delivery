@@ -17,11 +17,25 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: true
       },
+      quantity: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       user_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+      },
+      product_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Products',
           key: 'id'
         },
         onUpdate: 'CASCADE',
