@@ -1,6 +1,7 @@
 const { request, response } = require("express");
 const bcrypt = require('bcryptjs'); // Importar bcrypt para manejar las contraseñas
 const User = require("../models/user");
+const address = require("../models/adresses");
 
 const changePassword = async (req = request, res = response) => {
     const userId = req.user.id; // Obtener el ID del usuario del token JWT
@@ -73,7 +74,35 @@ const updateProfile = async (req = request, res = response) => {
     }
 }
 
+const saveAddress = async (req = request, res = response) => {
+    try {
+        const { name, street, latitude, longitude, user_id } = req.body;
+
+
+        // Crear una nueva dirección
+        const newAddress = await address.create({
+            name,
+            street,
+            latitude,
+            longitude,
+            user_id: user_id
+        });
+
+        res.status(201).json({
+            success: true,
+            data: newAddress.dataValues,
+            message: 'Address saved successfully'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Server error',
+            error: error.message
+        });
+    }
+}
 module.exports = {
     changePassword,
-    updateProfile
+    updateProfile,
+    saveAddress
 };

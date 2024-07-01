@@ -1,13 +1,13 @@
 const Product = require("../models/products");
 const Category = require("../models/category");
+const Image = require("../models/images");
 const { response, request } = require("express");
 
 const createProduct = async (req, res) => {
     try {
         const { name, description, price } = req.body;
-        const category_id = req.params.category_id; // Mover esta línea antes de su uso
+        const category_id = req.params.category_id;
 
-        // Validar si se proporciona una categoría válida
         if (!category_id) {
             return res.status(400).json({
                 success: false,
@@ -16,7 +16,6 @@ const createProduct = async (req, res) => {
             });
         }
 
-        // Validar si la categoría existe
         const category = await Category.findByPk(category_id);
         if (!category) {
             return res.status(400).json({
@@ -26,7 +25,6 @@ const createProduct = async (req, res) => {
             });
         }
 
-        // Validar si el producto ya existe
         const existingProduct = await Product.findOne({ where: { name: name } });
         if (existingProduct) {
             return res.status(400).json({
@@ -36,7 +34,6 @@ const createProduct = async (req, res) => {
             });
         }
 
-        // Crear el nuevo producto
         const product = await Product.create({ name, description, price, category_id });
 
         return res.status(200).json({
@@ -53,14 +50,13 @@ const createProduct = async (req, res) => {
             message: 'Error al crear el producto: ' + error.message
         });
     }
-}
+};
 
 const editProduct = async (req, res) => {
     try {
         const { id } = req.params;
         const { name, description, price, category_id } = req.body;
 
-        // Validar si el producto existe
         const product = await Product.findByPk(id);
         if (!product) {
             return res.status(404).json({
@@ -70,7 +66,6 @@ const editProduct = async (req, res) => {
             });
         }
 
-        // Validar si se proporciona una categoría válida (si se está cambiando)
         if (category_id) {
             const category = await Category.findByPk(category_id);
             if (!category) {
@@ -82,7 +77,6 @@ const editProduct = async (req, res) => {
             }
         }
 
-        // Validar si el nombre del producto ya existe (si se está cambiando)
         if (name && name !== product.name) {
             const existingProduct = await Product.findOne({ where: { name: name } });
             if (existingProduct) {
@@ -94,7 +88,6 @@ const editProduct = async (req, res) => {
             }
         }
 
-        // Validar que el precio sea un número entero
         if (price && (!Number.isInteger(Number(price)) || Number(price) <= 0)) {
             return res.status(400).json({
                 success: false,
@@ -103,7 +96,6 @@ const editProduct = async (req, res) => {
             });
         }
 
-        // Actualizar el producto
         await product.update({ name, description, price, category_id });
 
         return res.status(200).json({
@@ -120,28 +112,44 @@ const editProduct = async (req, res) => {
             message: 'Error al editar el producto: ' + error.message
         });
     }
-}
+};
 
-const getProducts = async (req, res) => {
+const getProductById = async (req, res = response) => {
+    const { id } = req.params;
+    try {
+        const product = await Product.findByPk(id, {
+            include: [{ model: Image }]
+        });
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: 'Producto no encontrado'
+            });
+        }
+        res.json({
+            success: true,
+            data: product
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error interno del servidor'
+        });
+    }
+};
+
+const getProductsByCategory = async (req, res) => {
     const { category_id } = req.params;
     try {
         const products = await Product.findAll({
-            where: {
-                category_id
-            }
+            where: { category_id },
+            include: [{ model: Image }]
         });
-        if (products.length === 0) {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: 'No se encontraron productos para la categoría especificada'
-            });
-        }
         return res.status(200).json({
             success: true,
             data: products,
             error: false,
-            message: 'Productos recuperados exitosamente'
+            message: products.length > 0 ? 'Productos recuperados exitosamente' : 'No hay productos disponibles en esta categoría'
         });
     } catch (error) {
         console.error("Error al recuperar los productos:", error);
@@ -152,6 +160,7 @@ const getProducts = async (req, res) => {
         });
     }
 };
+
 const deactivateProduct = async (req, res) => {
     try {
         const { id } = req.params;
@@ -173,7 +182,6 @@ const deactivateProduct = async (req, res) => {
             });
         }
 
-        // Desactivar el producto
         product.status = false;
         await product.save();
 
@@ -186,7 +194,7 @@ const deactivateProduct = async (req, res) => {
         console.error("Error al desactivar el producto:", error);
         return res.status(500).json({
             success: false,
-            error: true,
+                error: true,
             message: 'Error al desactivar el producto: ' + error.message
         });
     }
@@ -195,6 +203,7 @@ const deactivateProduct = async (req, res) => {
 module.exports = {
     createProduct,
     editProduct,
-    getProducts,
+    getProductsByCategory,
+    getProductById,
     deactivateProduct
-}
+};

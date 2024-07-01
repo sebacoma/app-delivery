@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require("sequelize");
 const db = require("../db/connection");
 const Category = require("./category");
+const Image = require("./images");  // Importa el modelo de Image después de definirlo
 
 class Product extends Model {}
 
@@ -23,11 +24,6 @@ Product.init({
             model: Category,
             key: 'id'
         }
-    },
-    status: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true  // True means active, false means inactive
     }
 }, {
     sequelize: db,
@@ -36,5 +32,8 @@ Product.init({
 
 Category.hasMany(Product, { foreignKey: 'category_id' });
 Product.belongsTo(Category, { foreignKey: 'category_id' });
+
+Product.hasMany(Image, { foreignKey: 'product_id' });
+Image.belongsTo(Product, { foreignKey: 'product_id' });
 
 module.exports = Product;
